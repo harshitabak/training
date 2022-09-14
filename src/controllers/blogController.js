@@ -23,11 +23,11 @@ const createblog = async function (req, res) {
         let findId = await AuthorModel.findById(authorId)
         if (!findId) return res.status(404).send({ status: false, msg: "this authorId not exist" })
         let savedData = await blogModel.create(data)
-       return res.status(201).send({ msg: savedData })
+       return res.status(201).send({status:true ,data: savedData })
 
     }
     catch (err) {
-      return res.status(500).send({ msg: err.message })
+      return res.status(500).send({status:false, msg: err.message })
     }
 }
 
@@ -80,14 +80,14 @@ const updateBlog = async function (req, res) {
         let blogId = req.params.blogId
         
         let data = req.body
-        let { title, body, subcategory, tags } = data
+        let { title, body, subcategory, tags, isPublished } = data
         
         const blogUpdate = await blogModel.findOneAndUpdate({ _id: blogId }, {
-            $set: { title, body, isPublished: true, publishedAt: new Date() },
+            $set: { title, body, isPublished, publishedAt: new Date() },
             $push: { tags, subcategory }
         }, {  upsert: true,new: true })
 
-        res.status(200).send({ status: true, data: blogUpdate })
+        res.status(200).send({ status: true,message:"updated", data: blogUpdate })
 
 
     } catch (error) {

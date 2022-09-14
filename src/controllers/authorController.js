@@ -2,11 +2,7 @@
 const AuthorModel = require("../models/authorModel")
 const jwt=require("jsonwebtoken")
 
-// function checkPassword(str)
-// {
-//     var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-//     return re.test(str);
-// }
+
 
 
 const createAuthor= async function (req, res) {
@@ -14,10 +10,10 @@ const createAuthor= async function (req, res) {
     {
     let data= req.body    
     let savedData= await AuthorModel.create(data)
-    return res.status(201).send({msg: savedData})
+    return res.status(201).send({status: true ,data: savedData})
     }
     catch(err){
-    return res.status(500).send({msg:err.message})
+    return res.status(500).send({status:false ,msg:err.message})
     }
 }
 module.exports.createAuthor = createAuthor
