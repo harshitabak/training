@@ -77,11 +77,7 @@ const getBook = async (req, res) => {
             if (!isValidObjectId(userId)) { return res.status(400).send({ status: false, message: "Please Enter valid UserId" }) }
         }
 
-        if (data.hasOwnProperty('userId')) {
-            let { ...tempData } = data   //tempdata autometically recover the data from data base on temproary basis and deltet the data after rewsult
-            delete (tempData.userId)
-        }
-
+        
         data.isDeleted = false
 
         let getFiltersBook = await bookModel.find(data).sort({ title: 1 }).select({ title: 1, excerpt: 1, userId: 1, category: 1, review: 1, releasedAt: 1 })
@@ -155,7 +151,7 @@ const updateBook = async function (req, res) {
         }
         if (data.releasedAt) {
             if (!isValidDate(data.releasedAt))  return res.status(400).send({ status: false, message: "Enter valid releaseAt date" })
-            if (checkUniqueValue.releasedAt == data.releasedAt) return res.status(400).send({ statusbar: false, message: "ISBN already exists" })
+            if (checkUniqueValue.releasedAt == data.releasedAt) return res.status(400).send({ statusbar: false, message: "releasedAt already exists" })
         }
         if (data.excerpt) {
             if (!isValid(data.excerpt) || !isValidAdd(data.excerpt)) return res.status(400).send({ status: false, message: "Please Enter Valid excerpt" })

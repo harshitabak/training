@@ -48,7 +48,7 @@ router.delete('/books/:bookId/review/:reviewId',  reviewController.deleteReview)
 
 //API for wrong route-of-API
 router.all("/*", function (req, res) {
-    res.status(400).send({
+    res.status(404).send({
         status: false,
         message: "Path Not Found"
     })

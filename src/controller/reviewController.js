@@ -123,8 +123,6 @@ const updateReview = async function (req, res) {
 
 //<<====================================  Delete Book Review  =============================================//
 
-
-
 const deleteReview = async function (req, res) {
     try {
         let getId = req.params
@@ -145,7 +143,9 @@ const deleteReview = async function (req, res) {
         if (checkReviewId.isDeleted == true)
             return res.status(404).send({ status: false, message: "Review not found and already deleted" })
 
-        await reviewModel.updateOne({ _id: getId.reviewId }, { isDeleted: true }, { $inc: { review: -1 } })
+        await reviewModel.updateOne({ _id: getId.reviewId }, { isDeleted: true })
+
+        await bookModel.updateOne({_id: getId.bookId},{$inc: {reviews: -1}})
 
         return res.status(200).send({ status: true, message: "Deleted Succesfully" })
     } catch (err) {
@@ -153,6 +153,8 @@ const deleteReview = async function (req, res) {
     }
 
 }
+
+
 
 
 
