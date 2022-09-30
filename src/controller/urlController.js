@@ -11,20 +11,12 @@ const urlRegex = function (match) {
 
 
 
-
-
-
-
-
-
 const createUrl = async function (req, res) {
     try {
         let data = req.body
         if (Object.keys(data).length == 0) {
             return res.status(400).send({ status: false, msg: "body is empty" })
         }
-
-
 
         if (!data.longUrl) {
             return res.status(400).send({ status: false, msg: "longUrl is required" })
@@ -62,6 +54,7 @@ const createUrl = async function (req, res) {
 
 
 const getUrl= async function(req,res){
+    try{
     let urlCode=req.params.urlCode
 
    
@@ -74,6 +67,10 @@ const getUrl= async function(req,res){
     }
    
    return res.status(302).redirect(urlData.longUrl)
+}
+catch(err){
+    return res.status(500).send({status:false, msg:err.message})
+}
 }
 
 module.exports.createUrl = createUrl
