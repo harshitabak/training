@@ -4,7 +4,10 @@ const url = require('validator')
 
 
 
-const urlregex = /^[A-Za-z0-9 _\-]{7,14}$/
+
+const urlRegex = function (match) {
+    return (/^[A-Za-z0-9 _\-]{7,14}$/).test(match)
+}
 
 
 
@@ -20,9 +23,13 @@ const createUrl = async function (req, res) {
         if (Object.keys(data).length == 0) {
             return res.status(400).send({ status: false, msg: "body is empty" })
         }
+
+
+
         if (!data.longUrl) {
             return res.status(400).send({ status: false, msg: "longUrl is required" })
         }
+
 
         if (typeof data.longUrl != "string") {
             return res.status(400).send({ status: false, msg: 'long url is invalid' })
@@ -56,8 +63,9 @@ const createUrl = async function (req, res) {
 
 const getUrl= async function(req,res){
     let urlCode=req.params.urlCode
+
    
-    
+    if (!urlRegex(urlCode)) return res.status(400).send({ status: false, msg: "UrlCode is Invalid" })
 
 
     let urlData= await urlModel.findOne({urlCode:urlCode})
