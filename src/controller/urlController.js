@@ -97,7 +97,7 @@ const createUrl = async function (req, res) {
 
         let createData = await urlModel.create(data)
         let result = {
-            _id: createData._id,
+        
             longUrl: createData.longUrl,
             shortUrl: createData.shortUrl,
             urlCode: createData.urlCode
